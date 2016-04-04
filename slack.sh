@@ -68,26 +68,26 @@ source ${IPCONFIG}
 function GET_HELP()
 {
 	echo "Usage: [options]"
-        echo "  options:"
-        echo "-a, Attachment                Sends a messages as an attachment."
-        echo "-A, Author                    Small text used to display the author's name."
-        echo "-b, Author Link               A URL that will hyperlink the author_name text mentioned above. (Author name is required)."
-        echo "-B, Author Icon               A URL that displays a small image to the left of the author_name text.(Author name is required)."
-        echo "-c, Channel                   The location the messages should be delivered."
-        echo "-C, Color                     This value is used to color the border along the left side of the message attachment."
-        echo "-h, Help                      Show the command options for Slack."
-        echo "-i, Icon                      A URL to an image file that will be displayed inside a message attachment."
-        echo "-I, Image                     Small text used to display the author's name."
-        echo "-m, Mode                      Mode toggles application specific behaviors (e.g., preconfigured Monit settings)."
-        echo "-N, Thumbnail                 A URL to an image file that will be displayed as a thumbnail on the right side of a message attachment."
-        echo "-p, Pretext                   This is optional text that appears above the message attachment block."
-        echo "-s, Status                    An optional value that can either be one of ok, info, warn or error."
-        echo "-t, Text                      This is the main text in a message attachment, and can contain standard message markup."
-        echo "-T, Title                     The title is displayed as larger, bold text near the top of a message attachmen."
-        echo "-L, Title Link                A valid URL in the will ensure the title text will be hyperlinked."
-        echo "-k, Token                     Authenticates the POST to Slack."
-        echo "-u, Username                  User that posts the message."
-        echo "-w, Webhook                   The Slack API service endpoint to POST messages."
+    echo "  options:"
+    echo "-a, Attachment                Sends a messages as an attachment."
+    echo "-A, Author                    Small text used to display the author's name."
+    echo "-b, Author Link               A URL that will hyperlink the author_name text mentioned above. (Author name is required)."
+    echo "-B, Author Icon               A URL that displays a small image to the left of the author_name text.(Author name is required)."
+    echo "-c, Channel                   The location the messages should be delivered."
+    echo "-C, Color                     This value is used to color the border along the left side of the message attachment."
+    echo "-h, Help                      Show the command options for Slack."
+    echo "-i, Icon                      A URL to an image file that will be displayed inside a message attachment."
+    echo "-I, Image                     Small text used to display the author's name."
+    echo "-m, Mode                      Mode toggles application specific behaviors (e.g., preconfigured Monit settings)."
+    echo "-N, Thumbnail                 A URL to an image file that will be displayed as a thumbnail on the right side of a message attachment."
+    echo "-p, Pretext                   This is optional text that appears above the message attachment block."
+    echo "-s, Status                    An optional value that can either be one of ok, info, warn or error."
+    echo "-t, Text                      This is the main text in a message attachment, and can contain standard message markup."
+    echo "-T, Title                     The title is displayed as larger, bold text near the top of a message attachmen."
+    echo "-L, Title Link                A valid URL in the will ensure the title text will be hyperlinked."
+    echo "-k, Token                     Authenticates the POST to Slack."
+    echo "-u, Username                  User that posts the message."
+    echo "-w, Webhook                   The Slack API service endpoint to POST messages."
 
 exit 1
 }
@@ -102,33 +102,32 @@ else
 
 while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w" opt; do
   case ${opt} in
-      a) ATTACHMENT="true" ;;
-      A) AUTHOR="${OPTARG}" ;;
-      b) AUTHORICON="${OPTARG}" ;;
-      B) AUTHORLINK="${OPTARG}" ;;
-      c) CHANNEL="${OPTARG}" ;;
-      C) COLOR="${OPTARG}" ;;
-      h) GET_HELP ;;
-      i) ICON="${OPTARG}" ;;
-      I) IMAGE="${OPTARG}" ;;
-      m) MODE="${OPTARG}" ;;
-      N) THUMBNAIL="${OPTARG}" ;;
-      p) PRETEXT="${OPTARG}" ;;
-      s)
+    a) ATTACHMENT="true" ;;
+    A) AUTHOR="${OPTARG}" ;;
+    b) AUTHORICON="${OPTARG}" ;;
+    B) AUTHORLINK="${OPTARG}" ;;
+    c) CHANNEL="${OPTARG}" ;;
+    C) COLOR="${OPTARG}" ;;
+    h) GET_HELP ;;
+    i) ICON="${OPTARG}" ;;
+    I) IMAGE="${OPTARG}" ;;
+    m) MODE="${OPTARG}" ;;
+    N) THUMBNAIL="${OPTARG}" ;;
+    p) PRETEXT="${OPTARG}" ;;
+    s)
         if test "${OPTARG}" = "ok"; then PRIORITY="OK"; fi
         if test "${OPTARG}" = "info"; then PRIORITY='INFO'; fi
         if test "${OPTARG}" = "warn"; then PRIORITY='WARN'; fi
         if test "${OPTARG}" = "error"; then PRIORITY='ERROR'; fi
         ;;
-
-        t) TEXT="${OPTARG}" ;;
-        T) TITLE="${OPTARG}" ;;
-        L) TITLELINK="${OPTARG}" ;;
-        k) TOKEN="${OPTARG}" ;;
-        u) USERNAME="${OPTARG}" ;;
-        w) WEBHOOK="${OPTARG}" ;;
-        esac
-        done
+    t) TEXT="${OPTARG}" ;;
+    T) TITLE="${OPTARG}" ;;
+    L) TITLELINK="${OPTARG}" ;;
+    k) TOKEN="${OPTARG}" ;;
+    u) USERNAME="${OPTARG}" ;;
+    w) WEBHOOK="${OPTARG}" ;;
+    esac
+    done
 
 fi
 
@@ -190,7 +189,7 @@ function SEND()
 if [[ ${ATTACHMENT} = "true" ]]; then
 
 PAYLOAD="payload={ \
-    \"channel\": \"#${CHANNEL}\", \
+    \"channel\": \"${CHANNEL}\", \
     \"username\": \"${USERNAME}\", \
     \"pretext\": \"${PRETEXT}\", \
     \"color\": \"${COLOR}\", \
@@ -216,7 +215,7 @@ PAYLOAD="payload={ \
  else
 
  PAYLOAD="payload={ \
-    \"channel\": \"#${CHANNEL}\", \
+    \"channel\": \"${CHANNEL}\", \
     \"username\": \"${USERNAME}\", \
     \"pretext\": \"${PRETEXT}\", \
     \"color\": \"${COLOR}\", \

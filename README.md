@@ -99,7 +99,7 @@ Here is the command represented in Slack:
 
 Note: These examples assume you have set your token and webhook endpoint.
 
-## Monit
+## Hacky Slack + Monit
 Monit is a system monitoring and recovery tool. More on Monit here: https://mmonit.com/monit/
 
 Hacky Slack was initially conceived to provide better support for Monit within Slack, especially customizing the Slack message UI to reflect smarter Monit events. Also, using Monit event variables in a Slack message allowed Hacky Slack the ability to trigger messages with minimal user input. This also means greater consistency for Monit messages as it ensures a common messaging approach across teams and systems.

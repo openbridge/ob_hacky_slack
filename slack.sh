@@ -147,11 +147,11 @@ if [[ -n "${MODE}" ]]; then
 
    if [[ -z "${MODE}" ]]; then
 
-echo "INFO: No Monit variables are present"
+      echo "INFO: No Monit variables are present"
 
-else
+   else
 
-  source "${CONFIG}/${MODE}"
+      source "${CONFIG}/${MODE}"
 
    fi
 

@@ -184,13 +184,13 @@ else
    if test "${PRIORITY}" = "INFO"; then echo "INFO: STATUS (-s) was set to INFO..."; ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}; fi
    if test "${PRIORITY}" = "WARN"; then echo "INFO: STATUS (-s) was set to WARN..."; ICON=${ICON:-':warn:'} && COLOR=${COLOR:-'#ed7d21'}; fi
    if test "${PRIORITY}" = "ERROR"; then echo "INFO: STATUS (-s) was set to ERROR..."; ICON=${ICON:-':error:'} && COLOR=${COLOR:-'#E21B6C'}; fi
+   if test -z "${USERNAME}"; then echo "INFO: A USERNAME (-u) was not specified for this POST to the Slack API. Setting a default username..."; USERNAME="${IP}"; fi
 
    # Set defaults
    test -z "${TEXT}"; echo "WARNING: You do not have any TEXT (-t) specified in the message."; TEXT="${TEXT:-'This message is missing TEXT'}"
    test -z "${TITLE}"; echo "WARNING: You do not have a TITLE (-T) specified for the message."; TITLE=${TITLE:-'This message is missing a TITLE'}
    test -z "${PRETEXT}"; echo "WARNING: You do not have a PRETEXT (-p) specified for the message."; PRETEXT=${PRETEXT:-'This message is missing a PRETEXT'}
    test -z "${CHANNEL}"; echo "WARNING: A CHANNEL (-c) was not set. Using the default CHANNEL..."; CHANNEL=${CHANNEL:-'general'}
-   test -z "${USERNAME}"; echo "INFO: A USERNAME (-u) was not specified for this POST to the Slack API. Setting a default username..."; USERNAME=${IP}
    test -z "${PRIORITY}"; echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}
 
 fi
@@ -224,7 +224,7 @@ PAYLOAD="payload={ \
     \"title_link\": \"${TITLELINK}\", \
     \"text\": \"${TEXT}\", \
     \"mrkdwn_in\": [\"text\",\"pretext\",\"fields\"], \
-    \"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${IP}\",\"short\": \"true\"} ], \
+    \"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${USERNAME}\",\"short\": \"true\"} ], \
     \"image_url\": \"${IMAGE}\", \
     \"thumb_url\": \"${THUMBNAIL}\" \
 }]}"

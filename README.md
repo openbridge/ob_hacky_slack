@@ -92,7 +92,7 @@ Here is a sample message and a screenshot of the message with various flags set.
 slack -a -t "Hello World" -i ":slack:" -T "Titles are awesome" -p "Pretext is so helpful to include" -s "info"
 ```
 
-Here is an example error message from Monit:
+Here is the command represented in Slack:
 
 ![Generic Message Examples](icons/png/generic-message.png?raw=true "Generic INFO")
 

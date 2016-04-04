@@ -1,0 +1,38 @@
+    USERNAME="monit @ ${IP}"
+    TITLE="${MONIT_SERVICE}"
+    TEXT="${MONIT_DESCRIPTION}"
+    PRETEXT="${MONIT_DATE} | ${MONIT_HOST}: ${MONIT_EVENT}"
+    FALLBACK="${MONIT_DATE} | ${MONIT_HOST}: ${MONIT_EVENT}"
+
+    if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) is OK. Setting a default STATUS to OK..." && ICON=${ICON:-':monit-ok:'} && COLOR=${COLOR:-'#36a64f'}; fi
+    if test "${PRIORITY}" = "INFO"; then echo "INFO: STATUS (-s) is INFO. Setting a default STATUS to INFO..." && ICON=${ICON:-':monit-info:'} && COLOR=${COLOR:-'#439FE0'}; fi
+    if test "${PRIORITY}" = "WARN"; then echo "INFO: STATUS (-s) is WARN. Setting a default STATUS to WARN..." && ICON=${ICON:-':monit-warn:'} && COLOR=${COLOR:-'#ed7d21'}; fi
+    if test "${PRIORITY}" = "ERROR"; then echo "INFO: STATUS (-s) is ERROR. Setting a default STATUS to ERROR..." && ICON=${ICON:-':monit-error:'} && COLOR=${COLOR:-'#E21B6C'}; fi
+
+# Save for later
+# if grep -Fq 'Action done' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Checksum' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Download bytes' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Upload bytes' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Connection' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Data access' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Execution' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'GID' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Ping' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Monit instance' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'type' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Link' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Download packets' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Upload packets' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Permission' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'PID' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'PPID' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Resource limit' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Saturation' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Size' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Speed' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Status' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Timeout' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Timestamp' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'UID' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
+# if grep -Fq 'Uptime' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi

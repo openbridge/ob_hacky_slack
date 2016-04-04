@@ -102,33 +102,33 @@ else
 
 while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w" opt; do
   case ${opt} in
-a) ATTACHMENT="true" ;;
-A) AUTHOR="${OPTARG}" ;;
-b) AUTHORICON="${OPTARG}" ;;
-B) AUTHORLINK="${OPTARG}" ;;
-c) CHANNEL="${OPTARG}" ;;
-C) COLOR="${OPTARG}" ;;
-h) GET_HELP ;;
-i) ICON="${OPTARG}" ;;
-I) IMAGE="${OPTARG}" ;;
-m) MODE="${OPTARG}" ;;
-N) THUMBNAIL="${OPTARG}" ;;
-p) PRETEXT="${OPTARG}" ;;
-s)
-if test "${OPTARG}" = "ok"; then PRIORITY="OK"; fi
-if test "${OPTARG}" = "info"; then PRIORITY='INFO'; fi
-if test "${OPTARG}" = "warn"; then PRIORITY='WARN'; fi
-if test "${OPTARG}" = "error"; then PRIORITY='ERROR'; fi
-;;
+      a) ATTACHMENT="true" ;;
+      A) AUTHOR="${OPTARG}" ;;
+      b) AUTHORICON="${OPTARG}" ;;
+      B) AUTHORLINK="${OPTARG}" ;;
+      c) CHANNEL="${OPTARG}" ;;
+      C) COLOR="${OPTARG}" ;;
+      h) GET_HELP ;;
+      i) ICON="${OPTARG}" ;;
+      I) IMAGE="${OPTARG}" ;;
+      m) MODE="${OPTARG}" ;;
+      N) THUMBNAIL="${OPTARG}" ;;
+      p) PRETEXT="${OPTARG}" ;;
+      s)
+        if test "${OPTARG}" = "ok"; then PRIORITY="OK"; fi
+        if test "${OPTARG}" = "info"; then PRIORITY='INFO'; fi
+        if test "${OPTARG}" = "warn"; then PRIORITY='WARN'; fi
+        if test "${OPTARG}" = "error"; then PRIORITY='ERROR'; fi
+        ;;
 
-t) TEXT="${OPTARG}" ;;
-T) TITLE="${OPTARG}" ;;
-L) TITLELINK="${OPTARG}" ;;
-k) TOKEN="${OPTARG}" ;;
-u) USERNAME="${OPTARG}" ;;
-w) WEBHOOK="${OPTARG}" ;;
-   esac
-   done
+        t) TEXT="${OPTARG}" ;;
+        T) TITLE="${OPTARG}" ;;
+        L) TITLELINK="${OPTARG}" ;;
+        k) TOKEN="${OPTARG}" ;;
+        u) USERNAME="${OPTARG}" ;;
+        w) WEBHOOK="${OPTARG}" ;;
+        esac
+        done
 
 fi
 
@@ -190,39 +190,39 @@ function SEND()
 if [[ ${ATTACHMENT} = "true" ]]; then
 
 PAYLOAD="payload={ \
-\"channel\": \"#${CHANNEL}\", \
-\"username\": \"${USERNAME}\", \
-\"pretext\": \"${PRETEXT}\", \
-\"color\": \"${COLOR}\", \
-\"icon_emoji\": \":${ICON}:\", \
-\"text\": \"${TEXT}\", \
-\"mrkdwn\": \"true\", \
-\"attachments\": [{
-\"fallback\": \"${FALLBACK}\", \
-\"color\": \"${COLOR}\", \
-\"pretext\": \"${PRETEXT}\", \
-\"author_name\": \"${AUTHOR}\", \
-\"author_link\": \"${AUTHORLINK}\", \
-\"author_icon\": \"${AUTHORICON}\", \
-\"title\": \"${TITLE}\", \
-\"title_link\": \"${TITLELINK}\", \
-\"text\": \"${TEXT}\", \
-\"mrkdwn_in\": [\"text\",\"pretext\",\"fields\"], \
-\"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${IP}\",\"short\": \"true\"} ], \
-\"image_url\": \"${IMAGE}\", \
-\"thumb_url\": \"${THUMBNAIL}\" \
+    \"channel\": \"#${CHANNEL}\", \
+    \"username\": \"${USERNAME}\", \
+    \"pretext\": \"${PRETEXT}\", \
+    \"color\": \"${COLOR}\", \
+    \"icon_emoji\": \":${ICON}:\", \
+    \"text\": \"${TEXT}\", \
+    \"mrkdwn\": \"true\", \
+    \"attachments\": [{
+    \"fallback\": \"${FALLBACK}\", \
+    \"color\": \"${COLOR}\", \
+    \"pretext\": \"${PRETEXT}\", \
+    \"author_name\": \"${AUTHOR}\", \
+    \"author_link\": \"${AUTHORLINK}\", \
+    \"author_icon\": \"${AUTHORICON}\", \
+    \"title\": \"${TITLE}\", \
+    \"title_link\": \"${TITLELINK}\", \
+    \"text\": \"${TEXT}\", \
+    \"mrkdwn_in\": [\"text\",\"pretext\",\"fields\"], \
+    \"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${IP}\",\"short\": \"true\"} ], \
+    \"image_url\": \"${IMAGE}\", \
+    \"thumb_url\": \"${THUMBNAIL}\" \
 }]}"
 
  else
 
  PAYLOAD="payload={ \
- \"channel\": \"#${CHANNEL}\", \
- \"username\": \"${USERNAME}\", \
- \"pretext\": \"${PRETEXT}\", \
- \"color\": \"${COLOR}\", \
- \"icon_emoji\": \":${ICON}:\", \
- \"text\": \"${TEXT}\", \
- \"mrkdwn\": \"true\" \
+    \"channel\": \"#${CHANNEL}\", \
+    \"username\": \"${USERNAME}\", \
+    \"pretext\": \"${PRETEXT}\", \
+    \"color\": \"${COLOR}\", \
+    \"icon_emoji\": \":${ICON}:\", \
+    \"text\": \"${TEXT}\", \
+    \"mrkdwn\": \"true\" \
  }"
 fi
 # Send the payload to the Slack API

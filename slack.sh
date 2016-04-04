@@ -83,7 +83,7 @@ source ${IPCONFIG}
 
 function GET_HELP()
 {
-	echo "Usage: [options]"
+    echo "Usage: [options]"
     echo "  options:"
     echo "-a, Attachment                Sends a messages as an attachment."
     echo "-A, Author                    Small text used to display the author's name."

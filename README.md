@@ -130,14 +130,22 @@ In a future release, the look and feel can be tailored to the specific Monit eve
 Below is a Monit statement triggers an alert if the memory exceeds 15MB for 2 cycles. It will repeat the alert every 3 cycles. Once the condition that triggered the alert returns to normal, Monit will issue an all clear message to Slack.
 
 ```
-if memory > 15 MB for 2 cycles then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c #testing -s error -M monit >> /ebs/logs/foo.log 2<&1" repeat every 3 cycles else if succeeded then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c testing -s ok -M monit >> /ebs/logs/foo.log 2<&1"
+if memory > 15 MB for 2 cycles then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c #testing -s error -M monit >> /ebs/logs/foo.log 2<&1" repeat every 3 cycles else if succeeded then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c #testing -s ok -M monit >> /ebs/logs/foo.log 2<&1"
 ```
-The -a flag sets the attachment flag. This is the expanded message format seen above. The -c flag sets the channel to deliver the message to. In this case the channel is "testing". The -s flag sets the status the message should inherit. The example above uses "error" and
-ok". Lastly, the -M flag is set to "monit". This tells Hacky Slack to use the Monit config.
+The <code>-a</code> flag sets the attachment flag. This is the expanded message format seen above. The <code>-c</code> flag sets the channel to deliver the message to. In this case the channel is "#testing". The <code>-s</code> flag sets the status the message should inherit. The example above uses "error" and
+ok". Lastly, the <code>-M</code> flag is set to "monit". This tells Hacky Slack to use the Monit config.
 
+Here is an example for monitoring crond:
+```
+check process crond with pidfile "/var/run/crond.pid"
+      start program = "/etc/init.d/crond start" with timeout 60 seconds
+      stop program = "/etc/init.d/crond stop"
+      if 2 restarts within 3 cycles then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c #testing -s error -M monit" repeat every 3 cycles else if succeeded then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c #testing -s ok -M monit"
+      if 5 restarts within 5 cycles then timeout
+```
 ## Using Hacky Slack in with other apps.
 
-Hacky Slack can be extended to support other applications. For example, Nagios monitoring or CRON. Really, any application can send messages via Hacky Slack.
+Hacky Slack can be extended to support other applications. For example, Nagios monitoring or Cron. Really, any application can send messages via Hacky Slack.
 
 # Icons
 

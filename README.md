@@ -13,19 +13,22 @@ Why is it called Hacky Slack? First, this reflects my "hacking" something togeth
 # Overview
 There are two goal of Hacky Slack. The first was to was to create a generic shell client for the Slack messaging API. The second was to take advantage of the Slack messaging interface to allow applications, like Monit, to style its events. In support of both goals Hacky Slack offers customizations for external applications, like Monit, via external config files (See the Monit example).
 
-Also, in support of having a more compelling Slack messages, a small collection of icons were created. The icons are meant to provide visual cues to the user so they can more easily identify the context of a message they received.
+Also, in support of having more compelling Slack messages, a small collection of icons were created. The icons are meant to provide visual cues to the user so they can more easily identify the context of a message they received in Slack.
 
 
 # Requirements
 
- Hacky Slack requires cURL. Most systems have it installed. However, if you are running Hacky Slack in Docker it may not. It should run in most modern Linux environments. This has been tested in a CentOS 7 Docker container and Mac OS X.
+ Hack Slack should run in most modern Linux environments. It has been tested in a CentOS 7 Docker container and Mac OS X.
 
+## cURL
+
+Hacky Slack requires cURL (https://curl.haxx.se). Most systems have it installed. However, if you are running Hacky Slack in Docker cURL may not be installed.
 
 ## Slack API Tokens
 
- You need to make sure that your Slack token is set as a system variable <code>${SLACK_TOKEN}</code> OR you can pass it in the command line to Hacky Slack <code> -k "12329210-391-0391-039210931AASC"</code>. You can also hard code it into <code>slack.sh</code> as <code>TOKEN="12329210-391-0391-039210931AASC"</code>
+ You need to make sure that your Slack token is set as a system variable <code>${SLACK_TOKEN}</code> or you can pass it to Hacky Slack via <code> -k "12329210-391-0391-039210931AASC"</code>. You can also hard code it into <code>slack.sh</code> as <code>TOKEN="12329210-391-0391-039210931AASC"</code>
 
-## Slack API Endpoint URL
+## Slack API Webhook Endpoint
 
  Hacky Slack will default to the Slack API endpoint URL <code>https://hooks.slack.com/services/</code>. However, if you want to use a different one simply pass it via <code> -w "https://foo.slack.com/bar/"</code>
 
@@ -35,7 +38,7 @@ Also, in support of having a more compelling Slack messages, a small collection 
 
 Installation is pretty simple. Just copy the <code>slack.sh</code> to <code>/usr/local/bin</code>. Then <code>chmod +x /usr/local/bin/slack.sh</code>.
 
-The default config (slack.sh) assumes you are installing slack into here:
+Please note that the default config (slack.sh) assumes you are installing slack into <code>/usr/local/bin</code>:
 
 ```
 APP="/usr/local/bin/slack.sh"
@@ -48,7 +51,7 @@ If you decide to copy Hacky Slack to a different APP directory change the settin
 
 # Using Hacky Slack
 
-Hacky Slack allowed you to pass a variety attributes to <code>slack</code> or <code>/usr/local/bin/slack.sh</code>:
+Hacky Slack allowed you to pass a variety attributes as defined by the Slack messaging specs:
 
 ```
 -a, Attachment      Sends a messages as an attachment."
@@ -119,7 +122,7 @@ The message will visually change based on the use of the status flag <code>-s</c
 | ![Monit Warn](icons/png/monit-warn.png?raw=true "Monit WARN") | Monit WARN <code>-s "warn"</code> |
 | ![Monit Error](icons/png/monit-error.png?raw=true "Monit ERROR") | Monit ERROR <code>-s "error"</code> |
 
-In a future release, the loof and feel can be tailored to the specific Monit event. For example, if there is a network event, then Hack Slack would customize the message to reflect that event type. At the moment, the 4 events above are the only customizations that are active.
+In a future release, the look and feel can be tailored to the specific Monit event. For example, if there is a network event, then Hack Slack would customize the message to reflect that event type by using a specific set of icons and colors. At the moment, the 4 events above are the only customizations that are active.
 
 
 ## Using Hacky Slack in Your Monit Configs
@@ -127,7 +130,7 @@ In a future release, the loof and feel can be tailored to the specific Monit eve
 Below is a Monit statement triggers an alert if the memory exceeds 15MB for 2 cycles. It will repeat the alert every 3 cycles. Once the condition that triggered the alert returns to normal, Monit will issue an all clear message to Slack.
 
 ```
-if memory > 15 MB for 2 cycles then exec /usr/bin/bash -c "sh /usr/local/bin/slack -a -c testing -s error -M monit >> /ebs/logs/foo.log 2<&1" repeat every 3 cycles else if succeeded then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c testing -s ok -M monit >> /ebs/logs/foo.log 2<&1"
+if memory > 15 MB for 2 cycles then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c testing -s error -M monit >> /ebs/logs/foo.log 2<&1" repeat every 3 cycles else if succeeded then exec /usr/bin/bash -c "sh /usr/local/bin/slack.sh -a -c testing -s ok -M monit >> /ebs/logs/foo.log 2<&1"
 ```
 The -a flag sets the attachment flag. This is the expanded message format seen above. The -c flag sets the channel to deliver the message to. In this case the channel is "testing". The -s flag sets the status the message should inherit. The example above uses "error" and
 ok". Lastly, the -M flag is set to "monit". This tells Hacky Slack to use the Monit config.

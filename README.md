@@ -217,6 +217,7 @@ Hacky Slack was inspired by the following resources:
 * https://github.com/course-hero/slacktee
 * https://github.com/rockymadden/slack-cli
 * https://api.slack.com/community
+* Icons courtesy of http://iconmonstr.com and AWS
 
 
 # License

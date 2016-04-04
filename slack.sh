@@ -6,22 +6,32 @@
 
 # Default WEBHOOK to post messages
 if [[ -n ${WEBHOOK} ]]; then
+
    echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
+
 elif [[ -n ${SLACK_WEBHOOK} ]]; then
+
    echo "INFO: The Slack API TOKEN was set as a system variable"
    TOKEN=${SLACK_WEBHOOK}
+
 else
+
    echo "INFO: Using default Slack API endpoint to POST messages..."
    WEBHOOK=${WEBHOOK-'https://hooks.slack.com/services/'}
+
 fi
 
 echo "${SLACK_TOKEN}"
 # Default TOKEN to post messages
 if [[ -n ${TOKEN} ]]; then
+
    echo "INFO: The Slack API TOKEN was passed via the command line (-k)"
+
 elif [[ -n ${SLACK_TOKEN} ]]; then
+
    echo "INFO: The Slack API TOKEN was set as a system variable"
    TOKEN=${SLACK_TOKEN}
+
 else
    echo "ERROR: No Slack API TOKEN was found. Can not proceed with posting messages to the API without one."
    exit 1
@@ -46,17 +56,23 @@ if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; IC
 
 # Check for the IP address every 2 hours. Use cache for anything < 2 hours
 if [[ ! -f "${IPCONFIG}" ]]; then
+
 echo "${IPCONFIG} does not exist"
 IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
 echo "IP=${IP}" > ${IPCONFIG}
+
 else
 
-if test "find '${IPCONFIG}' -mmin +120"; then
-  echo "${IPCONFIG} is less than 2 hours old."
-else
-IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
-echo "IP=${IP}" > ${IPCONFIG}
-fi
+    if test "find '${IPCONFIG}' -mmin +120"; then
+
+      echo "${IPCONFIG} is less than 2 hours old."
+
+    else
+
+    IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
+    echo "IP=${IP}" > ${IPCONFIG}
+
+    fi
 fi
 
 source ${IPCONFIG}
@@ -101,6 +117,7 @@ exit 1
 else
 
 while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w" opt; do
+
   case ${opt} in
     a) ATTACHMENT="true" ;;
     A) AUTHOR="${OPTARG}" ;;
@@ -224,6 +241,7 @@ PAYLOAD="payload={ \
     \"mrkdwn\": \"true\" \
  }"
 fi
+
 # Send the payload to the Slack API
 POST=$(curl -s -S -X POST --data-urlencode "${PAYLOAD}" "${WEBHOOK}${TOKEN}");
 

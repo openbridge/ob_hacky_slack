@@ -18,19 +18,25 @@ Also, in support of having more compelling Slack messages, a small collection of
 
 # Requirements
 
- Hack Slack should run in most modern Linux environments. It has been tested in a CentOS 7 Docker container and Mac OS X.
+First, you need to get yourself a Slack account. Go to the Slack webite: https://slack.com/
 
-## cURL
+Second, you need create an incoming webhook. Go here to learn how: https://api.slack.com/incoming-webhooks
 
-Hacky Slack requires cURL (https://curl.haxx.se). Most systems have it installed. However, if you are running Hacky Slack in Docker cURL may not be installed.
+As a result going through those two steps, you should get the following:
 
 ## Slack API Tokens
 
- You need to make sure that your Slack token is set as a system variable <code>${SLACK_TOKEN}</code> or you can pass it to Hacky Slack via <code> -k "12329210-391-0391-039210931AASC"</code>. You can also hard code it into <code>slack.sh</code> as <code>TOKEN="12329210-391-0391-039210931AASC"</code>
+ You need to make sure that your Slack token is set as a system variable <code>${SLACK_TOKEN}</code> or you can pass it to Hacky Slack via <code> -k "whatever-you-get-from-slack"</code>. You can also hard code it into <code>slack.sh</code> as <code>TOKEN="whatever-you-get-from-slack"</code>
 
 ## Slack API Webhook Endpoint
 
- Hacky Slack will default to the Slack API endpoint URL <code>https://hooks.slack.com/services/</code>. However, if you want to use a different one simply pass it via <code> -w "https://foo.slack.com/bar/"</code>
+ Hacky Slack will default to the Slack API endpoint URL <code>https://hooks.slack.com/services/</code>. However, if you want to use a different one simply pass it via <code> -w "https://whatever.slack.com/provides/"</code>
+
+## Hacky Slack should run in most modern Linux environments. It has been tested in a CentOS 7 Docker container and Mac OS X. However, you will need to make sure a few things are setup in your environment:
+
+#### cURL
+
+Hacky Slack requires cURL (https://curl.haxx.se). Most systems have it installed. However, if you are running Hacky Slack in Docker cURL may not be installed.
 
 # Installation
 

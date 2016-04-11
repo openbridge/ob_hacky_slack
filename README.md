@@ -32,7 +32,8 @@ As a result going through those two steps, you should get the following:
 
  Hacky Slack will default to the Slack API endpoint URL <code>https://hooks.slack.com/services/</code>. However, if you want to use a different one simply pass it via <code> -w "https://whatever.slack.com/provides/"</code>
 
-## Hacky Slack should run in most modern Linux environments. It has been tested in a CentOS 7 Docker container and Mac OS X. However, you will need to make sure a few things are setup in your environment:
+## Environment
+Hacky Slack should run in most modern Linux environments. It has been tested in a CentOS 7 Docker container and Mac OS X. However, you will need to make sure a few things are setup in your environment:
 
 #### cURL
 

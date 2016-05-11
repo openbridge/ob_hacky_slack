@@ -62,7 +62,7 @@ Hacky Slack allowed you to pass a variety attributes as defined by the Slack mes
 
 ```
 -a, Attachment      Sends a messages as an attachment."
--A, Author          Small text used to display the author's name."
+-A, Author          Display the author's name."
 -b, Author Link     A URL that will hyperlink the author_name text mentioned above. (Author name is required)."
 -B, Author Icon     A URL that displays a small image to the left of the author_name text.(Author name is required)."
 -c, Channel         The location the messages should be delivered. Use # or @ to prefix (#general or @joe)"
@@ -75,7 +75,7 @@ Hacky Slack allowed you to pass a variety attributes as defined by the Slack mes
 -p, Pretext         This is optional text that appears above the message attachment block."
 -s, Status          An optional value that can either be one of ok, info, warn or error."
 -t, Text            This is the main text in a message attachment, and can contain standard message markup."
--T, Title           The title is displayed as larger, bold text near the top of a message attachmen."
+-T, Title           The title is displayed as larger, bold text near the top of a message attachment."
 -L, Title Link      A valid URL in the will ensure the title text will be hyperlinked."
 -k, Token           Authenticates the POST to Slack."
 -u, Username        User that posts the message."

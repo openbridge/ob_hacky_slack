@@ -1,4 +1,4 @@
-# Hacky Slack
+# Hacky Slack: Slack API Shell Script
 
 Hacky Slack is a shell script that will post messages to a Slack webhook API endpoint.
 
@@ -11,7 +11,7 @@ From Slack:
 Why is it called Hacky Slack? First, this reflects my "hacking" something together that accomplished my goals. Second, I played a ton of Hacky Sack (https://en.wikipedia.org/wiki/Hacky_Sack) when I was a teenager.
 
 # Overview
-There are two goal of Hacky Slack. The first was to was to create a generic shell client for the Slack messaging API. The second was to take advantage of the Slack messaging interface to allow applications, like Monit, to style its events. In support of both goals Hacky Slack offers customizations for external applications, like Monit, via external config files (See the Monit example).
+There are two goal of Hacky Slack. The first was to was to create a generic Slack shell script for the messaging API. The second was to take advantage of the Slack messaging interface to allow applications, like Monit, to style its events. In support of both goals Hacky Slack offers customizations for external applications, like Monit, via external config files (See the Monit example).
 
 Also, in support of having more compelling Slack messages, a small collection of icons were created. The icons are meant to provide visual cues to the user so they can more easily identify the context of a message they received in Slack.
 
@@ -41,7 +41,7 @@ Hacky Slack requires cURL (https://curl.haxx.se). Most systems have it installed
 
 # Installation
 
-## slack.sh
+## Slack API Shell Script: slack.sh
 
 Installation is pretty simple. Just copy the <code>slack.sh</code> to <code>/usr/local/bin</code>. Then <code>chmod +x /usr/local/bin/slack.sh</code>.
 
@@ -86,7 +86,7 @@ For more information on the above parameters, please check out the Slack docs:
 * https://api.slack.com/docs/attachments
 
 
-# Send A Message
+# Send A Message Via Slack API Shell Script
 The channel is "general" with username "hacky-slack". The icon is "apple" and the author is "apple". The author name is linked to "apple.com" and the text sent in the message is "Where are the new 2016 Macbook models?"
 
 ```

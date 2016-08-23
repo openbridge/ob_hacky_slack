@@ -6,35 +6,25 @@
 
 # Default WEBHOOK to post messages
 if [[ -n ${WEBHOOK} ]]; then
-
-   echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
-
+  /etc/slack.d/monit
+   echo "INFO: The Slack API WEBHOOK endpoint was passed via the command line (-w)"
 elif [[ -n ${SLACK_WEBHOOK} ]]; then
-
-   echo "INFO: The Slack API TOKEN was set as a system variable"
+   echo "INFO: The Slack API WEBHOOK endpoint was set as a system variable"
    TOKEN=${SLACK_WEBHOOK}
-
 else
-
-   echo "INFO: Using default Slack API endpoint to POST messages..."
+   echo "INFO: No Slack API WEBHOOK endpoint was set as a system variable or passed (-w). Defaulting to generic Slack WEBHOOK to POST messages..."
    WEBHOOK=${WEBHOOK-'https://hooks.slack.com/services/'}
-
 fi
 
 echo "${SLACK_TOKEN}"
 # Default TOKEN to post messages
 if [[ -n ${TOKEN} ]]; then
-
    echo "INFO: The Slack API TOKEN was passed via the command line (-k)"
-
 elif [[ -n ${SLACK_TOKEN} ]]; then
-
    echo "INFO: The Slack API TOKEN was set as a system variable"
    TOKEN=${SLACK_TOKEN}
-
 else
-   echo "ERROR: No Slack API TOKEN was found. Can not proceed with posting messages to the API without one."
-   exit 1
+   echo "ERROR: No Slack API TOKEN was found. Can not proceed with posting messages to the API without one. Make sure you pass one via the command line (-k yourtoken)"
 fi
 
 # ----------
@@ -43,9 +33,9 @@ fi
 
 DATE=$(date +"%Y%m%d")
 HOSTNAME=${hostname-$(hostname -s)}
-CONFIG="/etc/slack.d"
-IPCONFIG="/tmp/ip.txt"
-APP="/usr/local/bin/slack.sh"
+CONFIG="etc/slack.d"
+IPCONFIG="tmp/ip.txt"
+APP="/usr/local/bin/slack/slack.sh"
 BIN="/usr/bin/slack"
 
 # Set the symlink for the app if it does not exist
@@ -56,22 +46,15 @@ if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; IC
 
 # Check for the IP address every 2 hours. Use cache for anything < 2 hours
 if [[ ! -f "${IPCONFIG}" ]]; then
-
-echo "${IPCONFIG} does not exist"
-IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
-echo "IP=${IP}" > ${IPCONFIG}
-
+  echo "${IPCONFIG} does not exist"
+  IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
+  echo "IP=${IP}" > ${IPCONFIG}
 else
-
     if test "find '${IPCONFIG}' -mmin +120"; then
-
       echo "${IPCONFIG} is less than 2 hours old."
-
     else
-
-    IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
-    echo "IP=${IP}" > ${IPCONFIG}
-
+      IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
+      echo "IP=${IP}" > ${IPCONFIG}
     fi
 fi
 
@@ -160,16 +143,12 @@ if [[ -n "${MODE}" ]]; then
 
    test -d "${CONFIG}" && echo "INFO: The ${CONFIG} direcotry exists" || echo "WARNING: The ${CONFIG} direcotry does not exist. Creating..."; mkdir -p ${CONFIG}
 
-   curl -o "${CONFIG}/${MODE}" -z "${CONFIG}/${MODE}" "https://raw.githubusercontent.com/openbridge/ob_slack/master/etc/slack.d/${MODE}" --verbose
+   curl -o "${CONFIG}/${MODE}" -z "${CONFIG}/${MODE}" "https://raw.githubusercontent.com/openbridge/ob_hack_slack/master/etc/slack.d/${MODE}" --verbose
 
    if [[ -z "${MODE}" ]]; then
-
       echo "INFO: No Monit variables are present"
-
    else
-
       source "${CONFIG}/${MODE}"
-
    fi
 
 else

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # ----------
 # Connection
@@ -29,33 +29,27 @@ DATE=$(date +"%Y%m%d")
 HOSTNAME=${hostname-$(hostname -s)}
 CONFIG="/etc/slack.d"
 IPCONFIG="/tmp/ip.txt"
-APP="/usr/local/bin/slack.sh"
-BIN="/usr/bin/slack"
+#APP="/slack.sh"
+#BIN="/usr/bin/slack"
 
 # Set the symlink for the app if it does not exist
-test -L "${APP}"; echo "WARNING: You do not have ${APP} symlinked."; ln ${APP} ${BIN} && chmod +x ${BIN}
+#test -L "${APP}"; echo "WARNING: You do not have ${APP} symlinked."; ln ${APP} ${BIN} && chmod +x ${BIN}
 
 # Set defaults
 if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; ICON=${ICON:-':good:'} && COLOR=${COLOR:-'#36a64f'}; fi
 
 # Check for the IP address every 2 hours. Use cache for anything < 2 hours
 if [[ ! -f "${IPCONFIG}" ]]; then
-
-echo "${IPCONFIG} does not exist"
-IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
-echo "IP=${IP}" > ${IPCONFIG}
-
+  echo "INFO: ${IPCONFIG} does not exist. Creating..."
+  IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
+  echo "IP=${IP}" > ${IPCONFIG}
 else
-
-    if test "find '${IPCONFIG}' -mmin +120"; then
-
-      echo "${IPCONFIG} is less than 2 hours old."
-
+  if test "find '${IPCONFIG}' -mmin +120"; then
+  echo "INFO: ${IPCONFIG} is less than 2 hours old. We will use the cached IP in ${IPCONFIG}..."
     else
-
-    IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
-    echo "IP=${IP}" > ${IPCONFIG}
-
+      IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
+      echo "WARNING: ${IPCONFIG} is more than 2 hours old. Updating the IP in ${IPCONFIG}..."
+      echo "IP=${IP}" > ${IPCONFIG}
     fi
 fi
 
@@ -94,42 +88,37 @@ exit 1
 
 # Check if any arguments were passed
 if [[ $# -eq 0 ]]; then
-
-GET_HELP
-exit 1
-
+  GET_HELP
+  exit 1
 else
-
-while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w" opt; do
-
-  case ${opt} in
-    a) ATTACHMENT="true" ;;
-    A) AUTHOR="${OPTARG}" ;;
-    b) AUTHORICON="${OPTARG}" ;;
-    B) AUTHORLINK="${OPTARG}" ;;
-    c) CHANNEL="${OPTARG}" ;;
-    C) COLOR="${OPTARG}" ;;
-    h) GET_HELP ;;
-    i) ICON="${OPTARG}" ;;
-    I) IMAGE="${OPTARG}" ;;
-    m) MODE="${OPTARG}" ;;
-    N) THUMBNAIL="${OPTARG}" ;;
-    p) PRETEXT="${OPTARG}" ;;
-    s)
-        if test "${OPTARG}" = "ok"; then PRIORITY="OK"; fi
-        if test "${OPTARG}" = "info"; then PRIORITY='INFO'; fi
-        if test "${OPTARG}" = "warn"; then PRIORITY='WARN'; fi
-        if test "${OPTARG}" = "error"; then PRIORITY='ERROR'; fi
-        ;;
-    t) TEXT="${OPTARG}" ;;
-    T) TITLE="${OPTARG}" ;;
-    L) TITLELINK="${OPTARG}" ;;
-    k) TOKEN="${OPTARG}" ;;
-    u) USERNAME="${OPTARG}" ;;
-    w) WEBHOOK="${OPTARG}" ;;
-    esac
-    done
-
+  while getopts ":a:A:b:B:c:C:h:i:I:m:N:p:s:Z:T:L:k:u:w" opt; do
+    case ${opt} in
+      a) ATTACHMENT="true" ;;
+      A) AUTHOR="${OPTARG}" ;;
+      b) AUTHORICON="${OPTARG}" ;;
+      B) AUTHORLINK="${OPTARG}" ;;
+      c) CHANNEL="${OPTARG}" ;;
+      C) COLOR="${OPTARG}" ;;
+      h) GET_HELP ;;
+      i) ICON="${OPTARG}" ;;
+      I) IMAGE="${OPTARG}" ;;
+      m) MODE="${OPTARG}" ;;
+      N) THUMBNAIL="${OPTARG}" ;;
+      p) PRETEXT="${OPTARG}" ;;
+      s)
+          if test "${OPTARG}" = "ok"; then PRIORITY="OK"; fi
+          if test "${OPTARG}" = "info"; then PRIORITY='INFO'; fi
+          if test "${OPTARG}" = "warn"; then PRIORITY='WARN'; fi
+          if test "${OPTARG}" = "error"; then PRIORITY='ERROR'; fi
+          ;;
+      Z) TEXT="${OPTARG}" ;;
+      T) TITLE="${OPTARG}" ;;
+      L) TITLELINK="${OPTARG}" ;;
+      k) TOKEN="${OPTARG}" ;;
+      u) USERNAME="${OPTARG}" ;;
+      w) WEBHOOK="${OPTARG}" ;;
+      esac
+      done
 fi
 
 # ----------
@@ -164,22 +153,22 @@ if [[ -n "${MODE}" ]]; then
 
    test -d "${CONFIG}" && echo "INFO: The ${CONFIG} direcotry exists" || echo "WARNING: The ${CONFIG} direcotry does not exist. Creating..."; mkdir -p ${CONFIG}
 
-   curl -o "${CONFIG}/${MODE}" -z "${CONFIG}/${MODE}" "https://raw.githubusercontent.com/openbridge/ob_slack/master/etc/slack.d/${MODE}" --verbose
+   curl -o "${CONFIG}/${MODE}" -z "${CONFIG}/${MODE}" "https://raw.githubusercontent.com/openbridge/ob_hacky_slack/master/etc/slack.d/${MODE}" --verbose
 
-   if [[ -z "${MODE}" ]]; then
+  if [[ -z "${MODE}" ]]; then
 
       echo "INFO: No Monit variables are present"
 
-   else
+  else
 
-      source "${CONFIG}/${MODE}"
+     source "${CONFIG}/${MODE}"
 
    fi
 
 else
 
    # ----------
-   # Tests
+   # Style Setting
    # ----------
    # Certain elements should be part of a message. Rather than simply exit, we post placeholders to highlight the fact the information is missing
 
@@ -190,14 +179,17 @@ else
    if test "${PRIORITY}" = "ERROR"; then echo "INFO: STATUS (-s) was set to ERROR..."; ICON=${ICON:-':error:'} && COLOR=${COLOR:-'#E21B6C'}; fi
    if test -z "${USERNAME}"; then echo "INFO: A USERNAME (-u) was not specified for this POST to the Slack API. Setting a default username..."; USERNAME="${IP}"; fi
 
-   # Set defaults
-   test -z "${TEXT}"; echo "WARNING: You do not have any TEXT (-t) specified in the message."; TEXT="${TEXT:-'This message is missing TEXT'}"
-   test -z "${TITLE}"; echo "WARNING: You do not have a TITLE (-T) specified for the message."; TITLE=${TITLE:-'This message is missing a TITLE'}
-   test -z "${PRETEXT}"; echo "WARNING: You do not have a PRETEXT (-p) specified for the message."; PRETEXT=${PRETEXT:-'This message is missing a PRETEXT'}
-   test -z "${CHANNEL}"; echo "WARNING: A CHANNEL (-c) was not set. Using the default CHANNEL..."; CHANNEL=${CHANNEL:-'general'}
-   test -z "${PRIORITY}"; echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}
-
 fi
+
+# ----------
+# Test Message
+# ----------
+
+if [[ -z "${TEXT+x}" ]]; then echo "WARNING: You do not have any TEXT (-t) specified in the message."; TEXT="${TEXT:-'This message is missing TEXT'}"; else echo "INFO: TEXT is set to '${TEXT}'"; fi
+if [[ -z "${TITLE+x}" ]]; then echo "WARNING: You do not have a TITLE (-T) specified for the message."; TITLE=${TITLE:-'This message is missing a TITLE'}; else echo "INFO: TITLE is set to '${TITLE}'"; fi
+if [[ -z "${PRETEXT+x}" ]]; then echo "WARNING: You do not have a PRETEXT (-p) specified for the message."; PRETEXT=${PRETEXT:-'This message is missing a PRETEXT'}; else echo "INFO: PRETEXT is set to '${PRETEXT}'"; fi
+if [[ -z "${CHANNEL+x}" ]]; then echo "WARNING: A CHANNEL (-c) was not set. Using the default CHANNEL..."; CHANNEL=${CHANNEL:-'general'}; else echo "INFO: CHANNEL is set to '${CHANNEL}'"; fi
+if [[ -z "${PRIORITY+x}" ]]; then echo echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}; else echo "INFO: PRIORITY is set to '${PRIORITY}'"; fi
 
 # ----------
 # Send Message
@@ -228,7 +220,7 @@ PAYLOAD="payload={ \
     \"title_link\": \"${TITLELINK}\", \
     \"text\": \"${TEXT}\", \
     \"mrkdwn_in\": [\"text\",\"pretext\",\"fields\"], \
-    \"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${USERNAME}\",\"short\": \"true\"} ], \
+    \"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${IP}\",\"short\": \"true\"} ], \
     \"image_url\": \"${IMAGE}\", \
     \"thumb_url\": \"${THUMBNAIL}\" \
 }]}"
@@ -247,13 +239,14 @@ PAYLOAD="payload={ \
 fi
 
 # Send the payload to the Slack API
+echo "OK: All tests passed, sending message to Slack API..."
 POST=$(curl -s -S -X POST --data-urlencode "${PAYLOAD}" "${WEBHOOK}${TOKEN}");
 
 # Check if the message posted to the Slack API. A successful POST should return "ok". Anything other than "ok" indicates an issue
-test "${POST}" != ok && echo "ERROR: The POST to the Slack API failed" && return 1
+if test "${POST}" != ok; then echo "ERROR: The POST to the Slack API failed" && return 1; else echo "OK: Message successfully sent to the Slack API."; fi
 
 }
 
 SEND
 
-exit 0
+exit 1

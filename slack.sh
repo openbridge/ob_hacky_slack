@@ -18,7 +18,6 @@ fi
 # ----------
 # Environment
 # ----------
-
 DATE=$(date +"%Y%m%d")
 HOSTNAME=${hostname-$(hostname -s)}
 CONFIG="/etc/slack.d"
@@ -30,7 +29,8 @@ BIN="/usr/bin/slack"
 test -L "${APP}"; echo "WARNING: You do not have ${APP} symlinked."; ln ${APP} ${BIN} && chmod +x ${BIN}
 
 # Set defaults
-if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; ICON=${ICON:-':good:'} && COLOR=${COLOR:-'#36a64f'}; fi
+if test "${ENV}" = "Production"; then echo "INFO: ENV (-e) was set to Production..."; ENV=${ENV:-'Production'}; fi
+if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; ICON=${ICON:-'good'} && COLOR=${COLOR:-'#36a64f'}; fi
 
 # Check for the IP address every 2 hours. Use cache for anything < 2 hours
 if [[ ! -f "${IPCONFIG}" ]]; then
@@ -83,7 +83,7 @@ if [[ $# -eq 0 ]]; then
     exit 1
 else
 
-while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w" opt; do
+while getopts "aA:b:B:c:C:e:h:i:I:m:N:p:s:t:T:L:k:u:w" opt; do
   case ${opt} in
     a) ATTACHMENT="true" ;;
     A) AUTHOR="${OPTARG}" ;;
@@ -132,11 +132,11 @@ fi
 # Service Specific Configurations
 # ----------
 # Service specifc configurations are passed using -m <config>
-# For example, the include monit config (/etc/slack.d/monit) will leverage mMonit specific environment variables to set message attributes.
+# For example, the include monit config (/etc/slack.d/monit) will leverage Monit specific environment variables to set message attributes.
 # We look for this first, if no config exists we use defaults
 if [[ -n "${MODE}" ]]; then
    test -d "${CONFIG}" && echo "INFO: The ${CONFIG} direcotry exists" || echo "WARNING: The ${CONFIG} direcotry does not exist. Creating..."; mkdir -p ${CONFIG}
-   curl -o "${CONFIG}/${MODE}" -z "${CONFIG}/${MODE}" "https://raw.githubusercontent.com/gonace/ob_hacky_slack/master/etc/slack.d/${MODE}" --verbose
+   curl -o "${CONFIG}/${MODE}" -z "${CONFIG}/${MODE}" "https://raw.githubusercontent.com/gonace/ob_hacky_slack/develop/etc/slack.d/${MODE}" --verbose
 
    if [[ -z "${MODE}" ]]; then
       echo "INFO: No Monit variables are present"
@@ -156,11 +156,11 @@ else
    if test -z "${USERNAME}"; then echo "INFO: A USERNAME (-u) was not specified for this POST to the Slack API. Setting a default username..."; USERNAME="${IP}"; fi
 
    # Set defaults
+   test -z "${ENV}"; echo "INFO: You did not provide any ENVIRONMENT (-e) specified."; ENV="${ENV:-'Production'}"
    test -z "${TEXT}"; echo "WARNING: You do not have any TEXT (-t) specified in the message."; TEXT="${TEXT:-'This message is missing TEXT'}"
    test -z "${TITLE}"; echo "WARNING: You do not have a TITLE (-T) specified for the message."; TITLE=${TITLE:-'This message is missing a TITLE'}
    test -z "${PRETEXT}"; echo "WARNING: You do not have a PRETEXT (-p) specified for the message."; PRETEXT=${PRETEXT:-'This message is missing a PRETEXT'}
    test -z "${CHANNEL}"; echo "WARNING: A CHANNEL (-c) was not set. Using the default CHANNEL..."; CHANNEL=${CHANNEL:-'general'}
-   test -z "${ENV}"; echo "INFO: You did not provide any ENVIRONMENT (-e) specified."; ENV="${ENV:-'Production'}"
    test -z "${PRIORITY}"; echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}
 fi
 

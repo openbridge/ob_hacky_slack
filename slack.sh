@@ -24,12 +24,13 @@ CONFIG="/etc/slack.d"
 IPCONFIG="/tmp/ip.txt"
 APP="/usr/local/bin/slack.sh"
 BIN="/usr/bin/slack"
+ENV="Production"
 
 # Set the symlink for the app if it does not exist
 test -L "${APP}"; echo "WARNING: You do not have ${APP} symlinked."; ln ${APP} ${BIN} && chmod +x ${BIN}
 
 # Set defaults
-if test "${ENV}" = "Production"; then echo "INFO: ENV (-e) was set to Production..."; ENV=${ENV:-'Production'}; fi
+if test "${ENV}" != "Production"; then echo "INFO: ENV (-e) was set to ${ENV}..."; ENV=${ENV}; fi
 if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; ICON=${ICON:-'good'} && COLOR=${COLOR:-'#36a64f'}; fi
 
 # Check for the IP address every 2 hours. Use cache for anything < 2 hours
@@ -91,7 +92,11 @@ while getopts "aA:b:B:c:C:e:h:i:I:m:N:p:s:t:T:L:k:u:w" opt; do
     B) AUTHORLINK="${OPTARG}" ;;
     c) CHANNEL="${OPTARG}" ;;
     C) COLOR="${OPTARG}" ;;
-    e) ENV="${OPTARG}" ;;
+    e)
+        if test "${OPTARG}" = "Test"; then ENV="Test"; fi
+        if test "${OPTARG}" = "Stage"; then ENV="Stage"; fi
+        if test "${OPTARG}" = "Production"; then ENV="Production"; fi
+        ;;
     h) GET_HELP ;;
     i) ICON="${OPTARG}" ;;
     I) IMAGE="${OPTARG}" ;;

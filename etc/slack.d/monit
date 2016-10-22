@@ -3,7 +3,6 @@
     TEXT="${MONIT_DESCRIPTION}"
     PRETEXT="${MONIT_DATE} | ${MONIT_HOST}: ${MONIT_EVENT}"
     FALLBACK="${MONIT_DATE} | ${MONIT_HOST}: ${MONIT_EVENT}"
-    ENV="${ENV}"
 
     if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) is OK. Setting a default STATUS to OK..." && ICON=${ICON:-'monit-ok'} && COLOR=${COLOR:-'#36a64f'}; fi
     if test "${PRIORITY}" = "INFO"; then echo "INFO: STATUS (-s) is INFO. Setting a default STATUS to INFO..." && ICON=${ICON:-'monit-info'} && COLOR=${COLOR:-'#439FE0'}; fi

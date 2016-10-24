@@ -62,7 +62,7 @@ function GET_HELP() {
     echo "-N, Thumbnail                 A URL to an image file that will be displayed as a thumbnail on the right side of a message attachment."
     echo "-p, Pretext                   This is optional text that appears above the message attachment block."
     echo "-s, Status                    An optional value that can either be one of ok, info, warn or error."
-    echo "-t, Text                      This is the main text in a message attachment, and can contain standard message markup."
+    echo "-Z, Text                      This is the main text in a message attachment, and can contain standard message markup."
     echo "-T, Title                     The title is displayed as larger, bold text near the top of a message attachmen."
     echo "-L, Title Link                A valid URL in the will ensure the title text will be hyperlinked."
     echo "-k, Token                     Authenticates the POST to Slack."
@@ -161,7 +161,7 @@ if [[ -z "${TEXT+x}" ]]; then echo "WARNING: You do not have any TEXT (-t) speci
 if [[ -z "${TITLE+x}" ]]; then echo "WARNING: You do not have a TITLE (-T) specified for the message."; TITLE=${TITLE:-'This message is missing a TITLE'}; else echo "INFO: TITLE is set to '${TITLE}'"; fi
 if [[ -z "${PRETEXT+x}" ]]; then echo "WARNING: You do not have a PRETEXT (-p) specified for the message."; PRETEXT=${PRETEXT:-'This message is missing a PRETEXT'}; else echo "INFO: PRETEXT is set to '${PRETEXT}'"; fi
 if [[ -z "${CHANNEL+x}" ]]; then echo "WARNING: A CHANNEL (-c) was not set. Using the default CHANNEL..."; CHANNEL=${CHANNEL:-'general'}; else echo "INFO: CHANNEL is set to '${CHANNEL}'"; fi
-if [[ -z "${PRIORITY+x}" ]]; then echo echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}; else echo "INFO: PRIORITY is set to '${PRIORITY}'"; fi
+if [[ -z "${PRIORITY+x}" ]]; then echo echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-'info'} && COLOR=${COLOR:-'#439FE0'}; else echo "INFO: PRIORITY is set to '${PRIORITY}'"; fi
 if [[ -z "${ENV+x}" ]]; then echo "INFO: A ENV (-e) was not set. Using the default ENV..."; ENV=${ENV:-'Development'}; else echo "INFO: ENV is set to '${ENV}'"; fi
 
 # ----------

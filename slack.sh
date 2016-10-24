@@ -146,10 +146,10 @@ else
   # ----------
   # Certain elements should be part of a message. Rather than simply exit, we post placeholders to highlight the fact the information is missing
   # Set stauts attributes
-  if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; ICON=${ICON:-':good:'} && COLOR=${COLOR:-'#36a64f'}; fi
-  if test "${PRIORITY}" = "INFO"; then echo "INFO: STATUS (-s) was set to INFO..."; ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}; fi
-  if test "${PRIORITY}" = "WARN"; then echo "INFO: STATUS (-s) was set to WARN..."; ICON=${ICON:-':warn:'} && COLOR=${COLOR:-'#ed7d21'}; fi
-  if test "${PRIORITY}" = "ERROR"; then echo "INFO: STATUS (-s) was set to ERROR..."; ICON=${ICON:-':error:'} && COLOR=${COLOR:-'#E21B6C'}; fi
+  if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; ICON=${ICON:-'good'} && COLOR=${COLOR:-'#36a64f'}; fi
+  if test "${PRIORITY}" = "INFO"; then echo "INFO: STATUS (-s) was set to INFO..."; ICON=${ICON:-'info'} && COLOR=${COLOR:-'#439FE0'}; fi
+  if test "${PRIORITY}" = "WARN"; then echo "INFO: STATUS (-s) was set to WARN..."; ICON=${ICON:-'warn'} && COLOR=${COLOR:-'#ed7d21'}; fi
+  if test "${PRIORITY}" = "ERROR"; then echo "INFO: STATUS (-s) was set to ERROR..."; ICON=${ICON:-'error'} && COLOR=${COLOR:-'#E21B6C'}; fi
   if test -z "${USERNAME}"; then echo "INFO: A USERNAME (-u) was not specified for this POST to the Slack API. Setting a default username..."; USERNAME="${IP}"; fi
 fi
 
@@ -210,7 +210,7 @@ function SEND() {
   POST=$(curl -s -S -X POST --data-urlencode "${PAYLOAD}" "${WEBHOOK}${TOKEN}");
 
   # Check if the message posted to the Slack API. A successful POST should return "ok". Anything other than "ok" indicates an issue
-  if test "${POST}" != ok; then echo "ERROR: The POST to the Slack API failed" && return 1; else echo "OK: Message successfully sent to the channel ${CHANNEL} via the Slack API"; fi
+  if test "${POST}" != ok; then echo "ERROR: The POST to the Slack API failed (${POST})" && return 1; else echo "OK: Message successfully sent to the channel ${CHANNEL} via the Slack API"; fi
 }
 
 SEND

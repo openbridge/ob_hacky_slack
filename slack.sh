@@ -5,13 +5,13 @@
 # ----------
 # Default WEBHOOK to post messages
 if [[ -n ${WEBHOOK} ]]; then
-   echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
+  echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
 elif [[ -n ${SLACK_WEBHOOK} ]]; then
-   echo "INFO: The Slack API TOKEN was set as a system variable"
-   TOKEN=${SLACK_WEBHOOK}
+  echo "INFO: The Slack API TOKEN was set as a system variable"
+  TOKEN=${SLACK_WEBHOOK}
 else
-   echo "INFO: Using default Slack API endpoint to POST messages..."
-   WEBHOOK=${WEBHOOK-'https://hooks.slack.com/services/'}
+  echo "INFO: Using default Slack API endpoint to POST messages..."
+  WEBHOOK=${WEBHOOK-'https://hooks.slack.com/services/'}
 fi
 
 # ----------
@@ -32,12 +32,12 @@ if [[ ! -f "${IPCONFIG}" ]]; then
   echo "IP=${IP}" > ${IPCONFIG}
 else
   if test "find '${IPCONFIG}' -mmin +120"; then
-  echo "INFO: ${IPCONFIG} is less than 2 hours old. We will use the cached IP in ${IPCONFIG}..."
-    else
-      IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
-      echo "WARNING: ${IPCONFIG} is more than 2 hours old. Updating the IP in ${IPCONFIG}..."
-      echo "IP=${IP}" > ${IPCONFIG}
-    fi
+    echo "INFO: ${IPCONFIG} is less than 2 hours old. We will use the cached IP in ${IPCONFIG}..."
+  else
+    IP=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
+    echo "WARNING: ${IPCONFIG} is more than 2 hours old. Updating the IP in ${IPCONFIG}..."
+    echo "IP=${IP}" > ${IPCONFIG}
+  fi
 fi
 
 source ${IPCONFIG}
@@ -168,48 +168,48 @@ if [[ -z "${ENV+x}" ]]; then echo "INFO: A ENV (-e) was not set. Using the defau
 # Send Message
 # ----------
 function SEND() {
-# The complete Slack API payload, including attachments#
-    if [[ ${ATTACHMENT} = "true" ]]; then
-          PAYLOAD="payload={ \
-              \"channel\": \"${CHANNEL}\", \
-              \"username\": \"${USERNAME}\", \
-              \"pretext\": \"${PRETEXT}\", \
-              \"color\": \"${COLOR}\", \
-              \"icon_emoji\": \":${ICON}:\", \
-              \"text\": \"${TEXT}\", \
-              \"mrkdwn\": \"true\", \
-              \"attachments\": [{
-              \"fallback\": \"${FALLBACK}\", \
-              \"color\": \"${COLOR}\", \
-              \"pretext\": \"${PRETEXT}\", \
-              \"author_name\": \"${AUTHOR}\", \
-              \"author_link\": \"${AUTHORLINK}\", \
-              \"author_icon\": \"${AUTHORICON}\", \
-              \"title\": \"${TITLE}\", \
-              \"title_link\": \"${TITLELINK}\", \
-              \"text\": \"${TEXT}\", \
-              \"mrkdwn_in\": [\"text\",\"pretext\",\"fields\"], \
-              \"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${IP}\",\"short\": \"true\"}, {\"title\": \"Environment\",\"value\": \"${ENV}\",\"short\": \"true\"} ], \
-              \"image_url\": \"${IMAGE}\", \
-              \"thumb_url\": \"${THUMBNAIL}\" \
-          }]}"
-     else
-        PAYLOAD="payload={ \
-           \"channel\": \"${CHANNEL}\", \
-            \"username\": \"${USERNAME}\", \
-            \"pretext\": \"${PRETEXT}\", \
-            \"color\": \"${COLOR}\", \
-            \"icon_emoji\": \":${ICON}:\", \
-            \"text\": \"${TEXT}\", \
-            \"mrkdwn\": \"true\" \
-        }"
-    fi
+  # The complete Slack API payload, including attachments#
+  if [[ ${ATTACHMENT} = "true" ]]; then
+    PAYLOAD="payload={ \
+      \"channel\": \"${CHANNEL}\", \
+      \"username\": \"${USERNAME}\", \
+      \"pretext\": \"${PRETEXT}\", \
+      \"color\": \"${COLOR}\", \
+      \"icon_emoji\": \":${ICON}:\", \
+      \"text\": \"${TEXT}\", \
+      \"mrkdwn\": \"true\", \
+      \"attachments\": [{
+      \"fallback\": \"${FALLBACK}\", \
+      \"color\": \"${COLOR}\", \
+      \"pretext\": \"${PRETEXT}\", \
+      \"author_name\": \"${AUTHOR}\", \
+      \"author_link\": \"${AUTHORLINK}\", \
+      \"author_icon\": \"${AUTHORICON}\", \
+      \"title\": \"${TITLE}\", \
+      \"title_link\": \"${TITLELINK}\", \
+      \"text\": \"${TEXT}\", \
+      \"mrkdwn_in\": [\"text\",\"pretext\",\"fields\"], \
+      \"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${IP}\",\"short\": \"true\"}, {\"title\": \"Environment\",\"value\": \"${ENV}\",\"short\": \"true\"} ], \
+      \"image_url\": \"${IMAGE}\", \
+      \"thumb_url\": \"${THUMBNAIL}\" \
+    }]}"
+   else
+    PAYLOAD="payload={ \
+      \"channel\": \"${CHANNEL}\", \
+      \"username\": \"${USERNAME}\", \
+      \"pretext\": \"${PRETEXT}\", \
+      \"color\": \"${COLOR}\", \
+      \"icon_emoji\": \":${ICON}:\", \
+      \"text\": \"${TEXT}\", \
+      \"mrkdwn\": \"true\" \
+    }"
+  fi
 
-    # Send the payload to the Slack API
-    echo "OK: All tests passed, sending message to Slack API..."
-    POST=$(curl -s -S -X POST --data-urlencode "${PAYLOAD}" "${WEBHOOK}${TOKEN}");
+  # Send the payload to the Slack API
+  echo "OK: All tests passed, sending message to Slack API..."
+  POST=$(curl -s -S -X POST --data-urlencode "${PAYLOAD}" "${WEBHOOK}${TOKEN}");
 
-    # Check if the message posted to the Slack API. A successful POST should return "ok". Anything other than "ok" indicates an issue
+  # Check if the message posted to the Slack API. A successful POST should return "ok". Anything other than "ok" indicates an issue
   if test "${POST}" != ok; then echo "ERROR: The POST to the Slack API failed" && return 1; else echo "OK: Message successfully sent to the channel ${CHANNEL} via the Slack API"; fi
 }
 

@@ -44,15 +44,6 @@ Hacky Slack requires cURL (https://curl.haxx.se). Most systems have it installed
 
 Installation is pretty simple. Just copy the <code>slack.sh</code> to <code>/usr/local/bin</code>. Then <code>chmod +x /usr/local/bin/slack.sh</code>.
 
-Please note that the default config (slack.sh) assumes you are installing slack into <code>/usr/local/bin</code>:
-
-```
-APP="/usr/local/bin/slack.sh"
-BIN="/usr/bin/slack"
-```
-
-BIN is used to <code>ln</code> to APP to BIN. This will allow you to use <code>slack</code> vs <code>/usr/local/bin/slack.sh</code>
-
 If you decide to copy Hacky Slack to a different APP directory change the settings accordingly.
 
 # Using Hacky Slack
@@ -89,13 +80,17 @@ For more information on the above parameters, please check out the Slack docs:
 The channel is "general" with username "hacky-slack". The icon is "apple" and the author is "apple". The author name is linked to "apple.com" and the text sent in the message is "Where are the new 2016 Macbook models?"
 
 ```
-slack -c "#general" -u "hacky-slack" -i "apple" -a "Macbook" -b "http://www.apple.com/ -t "Where are the new 2016 Macbook models?"
+sh slack.sh -c "#general" -u "hacky-slack" -i "apple" -a "Macbook" -b "http://www.apple.com/ -t "Where are the new 2016 Macbook models?"
 ```
 
 Here is a sample message and a screenshot of the message with various flags set.
 
 ```
-slack -a -t "Hello World" -i ":slack:" -T "Titles are awesome" -p "Pretext is so helpful to include" -s "info"
+sh slack.sh  -a -t "Hello World" -i ":slack:" -T "Titles are awesome" -p "Pretext is so helpful to include" -s "info"
+```
+
+```
+sh slack.sh -c "#general" -u "steve" -i "dog" -a "Macbook Pro" -B "http://www.apple.com/" -p "Almost" -Z "Where are the new 2016 Macbook models" -s "ok" -T "Wow" -L "https://www.apple.com" -k "213912391-2093-10293ASSJASLKA"
 ```
 
 Here is the command represented in Slack:
@@ -105,6 +100,16 @@ Here is the command represented in Slack:
 
 Note: These examples assume you have set your token and webhook endpoint.
 
+# Hack Slack Docker style
+
+There is a `Dockerfile` included which may simplify running the Hacky Slack. This assumes you have Docker installed. Simply build your image by running `docker build -t slack .`
+
+Here is an example of running with Docker:
+```
+docker run -it slack /bin/bash /slack.sh -c "#general" -u "steve" -i "dog" -a "Macbook Pro" -B "http://www.apple.com/" -p "Almost" -Z "Where are the new 2016 Macbook models" -s "ok" -T "Wow" -L "https://www.apple.com" -k "213912391-2093-10293ASSJASLKA"
+```
+
+This is approach consumes a lot more space that the file alone. The total image is < 10MB. However, it might provide more flexibility in some use cases. Your mileage may vary.
 
 # Hacky Slack + Monit
 

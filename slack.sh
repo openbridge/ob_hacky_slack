@@ -24,7 +24,6 @@ CONFIG="/etc/slack.d"
 IPCONFIG="/tmp/ip.txt"
 APP="/usr/local/bin/slack.sh"
 BIN="/usr/bin/slack"
-ENV="Production"
 
 # Set the symlink for the app if it does not exist
 test -L "${APP}"; echo "WARNING: You do not have ${APP} symlinked."; ln ${APP} ${BIN} && chmod +x ${BIN}
@@ -92,11 +91,7 @@ while getopts "aA:b:B:c:C:e:h:i:I:m:N:p:s:t:T:L:k:u:w" opt; do
     B) AUTHORLINK="${OPTARG}" ;;
     c) CHANNEL="${OPTARG}" ;;
     C) COLOR="${OPTARG}" ;;
-    e)
-        if test "${OPTARG}" = "Test"; then ENV="Test"; fi
-        if test "${OPTARG}" = "Stage"; then ENV="Stage"; fi
-        if test "${OPTARG}" = "Production"; then ENV="Production"; fi
-        ;;
+    e) ENV="${OPTARG}" ;;
     h) GET_HELP ;;
     i) ICON="${OPTARG}" ;;
     I) IMAGE="${OPTARG}" ;;

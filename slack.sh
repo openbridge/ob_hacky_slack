@@ -3,13 +3,12 @@
 # ----------
 # Connection
 # ----------
-
 # Default WEBHOOK to post messages
 if [[ -n ${WEBHOOK} ]]; then
    echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
 elif [[ -n ${SLACK_WEBHOOK} ]]; then
    echo "INFO: The Slack API TOKEN was set as a system variable"
-   TOKEN=${SLACK_WEBHOOK}
+   WEBHOOK=${SLACK_WEBHOOK}
 else
    echo "INFO: Using default Slack API endpoint to POST messages..."
    WEBHOOK=${WEBHOOK-'https://hooks.slack.com/services/'}
@@ -128,6 +127,20 @@ if [[ -n ${TOKEN} ]]; then
 elif [[ -n ${SLACK_TOKEN} ]]; then
    echo "INFO: The Slack API TOKEN was set as a system variable"
    TOKEN=${SLACK_TOKEN}
+else
+   echo "ERROR: No Slack API TOKEN was found. Can not proceed with posting messages to the API without one."
+   exit 1
+fi
+
+# ----------
+# Check for CHANNEL
+# ----------
+# Default CHANNEL to post messages
+if [[ -n ${CHANNEL} ]]; then
+   echo "INFO: The Slack API TOKEN was passed via the command line (-k)"
+elif [[ -n ${SLACK_CHANNEL} ]]; then
+   echo "INFO: The Slack API TOKEN was set as a system variable"
+   CHANNEL=${SLACK_CHANNEL}
 else
    echo "ERROR: No Slack API TOKEN was found. Can not proceed with posting messages to the API without one."
    exit 1

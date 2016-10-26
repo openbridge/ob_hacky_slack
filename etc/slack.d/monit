@@ -9,6 +9,7 @@
     if test "${PRIORITY}" = "WARN"; then echo "INFO: STATUS (-s) is WARN. Setting a default STATUS to WARN..." && ICON=${ICON:-'monit-warn'} && COLOR=${COLOR:-'#ed7d21'}; fi
     if test "${PRIORITY}" = "ERROR"; then echo "INFO: STATUS (-s) is ERROR. Setting a default STATUS to ERROR..." && ICON=${ICON:-'monit-error'} && COLOR=${COLOR:-'#E21B6C'}; fi
 
+
     # Save for later
     # if grep -Fq 'Action done' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi
     # if grep -Fq 'Checksum' ${MONIT_DESCRIPTION}; then ICON=${ICON-':cpu:'}; fi

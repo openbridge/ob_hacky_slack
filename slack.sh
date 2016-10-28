@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ----------
-# Connection
+# API Endpoint
 # ----------
 # Default WEBHOOK to post messages
 if [[ -n ${WEBHOOK} ]]; then
@@ -108,7 +108,7 @@ else
 fi
 
 # ----------
-# Check for TOKEN
+# Check for Token
 # ----------
 echo "${SLACK_TOKEN}"
 # Default TOKEN to post messages

@@ -1,4 +1,6 @@
-# Hacky Slack: Slack API With Bash
+
+![Hack Slack](https://github.com/openbridge/ob_hacky_slack/blob/master/icons/png/slack.png "Optional title")
+# Hacky Slack: A Bash Slack API Client
 
 Hacky Slack is a bash script that will post messages to a Slack webhook API endpoint.
 

@@ -1,4 +1,4 @@
-# Hacky Slack: Slack API bash Script
+# Hacky Slack: Slack API With Bash
 
 Hacky Slack is a bash script that will post messages to a Slack webhook API endpoint.
 
@@ -99,7 +99,7 @@ For more information on the above parameters, please check out the Slack docs:
 - <https://api.slack.com/docs/formatting>
 - <https://api.slack.com/docs/attachments>
 
-# Send A Message Via Slack API bash Script
+# Send A Message Via Hacky Slack
 
 The channel is "general" with username "hacky-slack". The icon is "apple" and the author is "apple". The author name is linked to "apple.com" and the text sent in the message is "Where are the new 2016 Macbook models?"
 

@@ -213,4 +213,4 @@ function SEND() {
 }
 
 SEND
-exit 1
+exit 0

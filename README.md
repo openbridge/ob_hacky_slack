@@ -1,4 +1,4 @@
-# Hacky Slack
+# Hacky Slack: Slack API Shell Script
 
 Hacky Slack is a shell script that will post messages to a Slack webhook API endpoint.
 
@@ -11,7 +11,7 @@ From Slack:
 Why is it called Hacky Slack? First, this reflects my "hacking" something together that accomplished my goals. Second, I played a ton of Hacky Sack (https://en.wikipedia.org/wiki/Hacky_Sack) when I was a teenager.
 
 # Overview
-There are two goal of Hacky Slack. The first was to was to create a generic shell client for the Slack messaging API. The second was to take advantage of the Slack messaging interface to allow applications, like Monit, to style its events. In support of both goals Hacky Slack offers customizations for external applications, like Monit, via external config files (See the Monit example).
+There are two goal of Hacky Slack. The first was to was to create a generic Slack shell script for the messaging API. The second was to take advantage of the Slack messaging interface to allow applications, like Monit, to style its events. In support of both goals Hacky Slack offers customizations for external applications, like Monit, via external config files (See the Monit example).
 
 Also, in support of having more compelling Slack messages, a small collection of icons were created. The icons are meant to provide visual cues to the user so they can more easily identify the context of a message they received in Slack.
 
@@ -32,7 +32,8 @@ As a result going through those two steps, you should get the following:
 
  Hacky Slack will default to the Slack API endpoint URL <code>https://hooks.slack.com/services/</code>. However, if you want to use a different one simply pass it via <code> -w "https://whatever.slack.com/provides/"</code>
 
-## Hacky Slack should run in most modern Linux environments. It has been tested in a CentOS 7 Docker container and Mac OS X. However, you will need to make sure a few things are setup in your environment:
+## Environment
+Hacky Slack should run in most modern Linux environments. It has been tested in a CentOS 7 Docker container and Mac OS X. However, you will need to make sure a few things are setup in your environment:
 
 #### cURL
 
@@ -40,7 +41,7 @@ Hacky Slack requires cURL (https://curl.haxx.se). Most systems have it installed
 
 # Installation
 
-## slack.sh
+## Slack API Shell Script: slack.sh
 
 Installation is pretty simple. Just copy the <code>slack.sh</code> to <code>/usr/local/bin</code>. Then <code>chmod +x /usr/local/bin/slack.sh</code>.
 
@@ -52,7 +53,7 @@ Hacky Slack allowed you to pass a variety attributes as defined by the Slack mes
 
 ```
 -a, Attachment      Sends a messages as an attachment."
--A, Author          Small text used to display the author's name."
+-A, Author          Display the author's name."
 -b, Author Link     A URL that will hyperlink the author_name text mentioned above. (Author name is required)."
 -B, Author Icon     A URL that displays a small image to the left of the author_name text.(Author name is required)."
 -c, Channel         The location the messages should be delivered. Use # or @ to prefix (#general or @joe)"
@@ -65,7 +66,7 @@ Hacky Slack allowed you to pass a variety attributes as defined by the Slack mes
 -p, Pretext         This is optional text that appears above the message attachment block."
 -s, Status          An optional value that can either be one of ok, info, warn or error."
 -t, Text            This is the main text in a message attachment, and can contain standard message markup."
--T, Title           The title is displayed as larger, bold text near the top of a message attachmen."
+-T, Title           The title is displayed as larger, bold text near the top of a message attachment."
 -L, Title Link      A valid URL in the will ensure the title text will be hyperlinked."
 -k, Token           Authenticates the POST to Slack."
 -u, Username        User that posts the message."
@@ -76,7 +77,7 @@ For more information on the above parameters, please check out the Slack docs:
 * https://api.slack.com/docs/attachments
 
 
-# Send A Message
+# Send A Message Via Slack API Shell Script
 The channel is "general" with username "hacky-slack". The icon is "apple" and the author is "apple". The author name is linked to "apple.com" and the text sent in the message is "Where are the new 2016 Macbook models?"
 
 ```

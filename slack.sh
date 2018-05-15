@@ -5,7 +5,7 @@
 # ----------
 # Default WEBHOOK to post messages
 if [[ -n ${WEBHOOK} ]]; then
-  echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
+echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
 elif [[ -n ${SLACK_WEBHOOK} ]]; then
   echo "INFO: The Slack API TOKEN was set as a system variable"
   WEBHOOK=${SLACK_WEBHOOK}
@@ -18,6 +18,7 @@ fi
 # Environment
 # ----------
 HOSTNAME=${hostname-$(hostname -s)}
+EPOCH=$(date +%s)
 CONFIG="/etc/slack.d"
 IPCONFIG="/tmp/ip.txt"
 
@@ -56,6 +57,8 @@ function GET_HELP() {
     echo "-C, Color                     This value is used to color the border along the left side of the message attachment."
     echo "-e, Environment               This value is used to provide the message with an environment identifier."
     echo "-h, Help                      Show the command options for Slack."
+    echo "-f, Footer                    Add a footer label."
+    echo "-F, Footer Image              Add a footer image."
     echo "-i, Icon                      A URL to an image file that will be displayed inside a message attachment."
     echo "-I, Image                     Small text used to display the author's name."
     echo "-m, Mode                      Mode toggles application specific behaviors (e.g., preconfigured Monit settings)."
@@ -86,6 +89,8 @@ else
       C) COLOR="${OPTARG}" ;;
       e) ENV="${OPTARG}" ;;
       h) GET_HELP ;;
+      F) FOOTER="${OPTARG}" ;;
+      f) FOOTERICON="${OPTARG}" ;;
       i) ICON="${OPTARG}" ;;
       I) IMAGE="${OPTARG}" ;;
       m) MODE="${OPTARG}" ;;
@@ -162,6 +167,8 @@ if [[ -z "${PRETEXT+x}" ]]; then echo "WARNING: You do not have a PRETEXT (-p) s
 if [[ -z "${CHANNEL+x}" ]]; then echo "WARNING: A CHANNEL (-c) was not set. Using the default CHANNEL..."; CHANNEL=${CHANNEL:-'general'}; else echo "INFO: CHANNEL is set to '${CHANNEL}'"; fi
 if [[ -z "${PRIORITY+x}" ]]; then echo echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-'info'} && COLOR=${COLOR:-'#439FE0'}; else echo "INFO: PRIORITY is set to '${PRIORITY}'"; fi
 if [[ -z "${ENV+x}" ]]; then echo "INFO: A ENV (-e) was not set. Using the default ENV..."; ENV=${ENV:-'Development'}; else echo "INFO: ENV is set to '${ENV}'"; fi
+if [[ -z "${FOOTERICON+x}" ]]; then echo "INFO: A FOOTERICON (-f) was not set. Using the default FOOTERICON..."; FOOTERICON=${FOOTERICON:-'https://platform.slack-edge.com/img/default_application_icon.png'}; else echo "INFO: FOOTERICON is set to '${FOOTERICON}'"; fi
+if [[ -z "${FOOTER+x}" ]]; then echo "INFO: A FOOTER (-F) was not set. Using the default FOOTER..."; FOOTER=${AUTHOR}; else echo "INFO: FOOTER is set to '${FOOTER}'"; fi
 
 # ----------
 # Send Message
@@ -190,7 +197,10 @@ function SEND() {
       \"mrkdwn_in\": [\"text\",\"pretext\",\"fields\"], \
       \"fields\": [{\"title\": \"Status\",\"value\": \"${PRIORITY}\",\"short\": \"true\"}, {\"title\": \"Host\",\"value\": \"${IP}\",\"short\": \"true\"}, {\"title\": \"Environment\",\"value\": \"${ENV}\",\"short\": \"true\"} ], \
       \"image_url\": \"${IMAGE}\", \
-      \"thumb_url\": \"${THUMBNAIL}\" \
+      \"footer\": \"${FOOTER}\", \
+      \"footer_icon\": \"${FOOTERICON}\", \
+      \"ts\": \"${EPOCH}\" \
+
     }]}"
    else
     PAYLOAD="payload={ \

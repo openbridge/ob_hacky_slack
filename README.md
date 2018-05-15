@@ -75,25 +75,28 @@ If you decide to copy Hacky Slack to a different APP directory change the settin
 Hacky Slack allowed you to pass a variety attributes as defined by the Slack messaging specs:
 
 ```
--a, Attachment      Sends a messages as an attachment."
--A, Author          Display the author's name."
--b, Author Link     A URL that will hyperlink the author_name text mentioned above. (Author name is required)."
--B, Author Icon     A URL that displays a small image to the left of the author_name text.(Author name is required)."
--c, Channel         The location the messages should be delivered. Use # or @ to prefix (#general or @joe)"
--C, Color           This value is used to color the border along the left side of the message attachment."
--h, Help            Show the command options for Slack."
--i, Icon            A URL to an image file that will be displayed inside a message attachment."
--I, Image           Small text used to display the author's name."
--m, Mode            Mode toggles application specific behaviors (e.g., preconfigured Monit settings)."
--N, Thumbnail       A URL to an image file that will be displayed as a thumbnail on the right side of a message attachment."
--p, Pretext         This is optional text that appears above the message attachment block."
--s, Status          An optional value that can either be one of ok, info, warn or error."
--t, Text            This is the main text in a message attachment, and can contain standard message markup."
--T, Title           The title is displayed as larger, bold text near the top of a message attachment."
--L, Title Link      A valid URL in the will ensure the title text will be hyperlinked."
--k, Token           Authenticates the POST to Slack."
--u, Username        User that posts the message."
--w, Webhook         The Slack API service endpoint to POST messages. Defaults to 'https://hooks.slack.com/services/'"
+    -a, Attachment: Sends a messages as an attachment.
+    -A, Author: Small text used to display the author's name.
+    -b, Author Link: A URL that will hyperlink the author_name text mentioned above. (Author name is required).
+    -B, Author Icon: A URL that displays a small image to the left of the author_name text.(Author name is required).
+    -c, Channel: The location the messages should be delivered.
+    -C, Color: This value is used to color the border along the left side of the message attachment.
+    -e, Environment: This value is used to provide the message with an environment identifier.
+    -h, Help: Show the command options for Slack.
+    -f, Footer: Add a footer label.
+    -F, Footer Image: Add a footer image.
+    -i, Icon: A URL to an image file that will be displayed inside a message attachment.
+    -I, Image: Small text used to display the author's name.
+    -m, Mode: Mode toggles application specific behaviors (e.g., preconfigured Monit settings).
+    -N, Thumbnail: A URL to an image file that will be displayed as a thumbnail on the right side of a message attachment.
+    -p, Pretext: This is optional text that appears above the message attachment block.
+    -s, Status: An optional value that can either be one of ok, info, warn or error.
+    -Z, Text: This is the main text in a message attachment, and can contain standard message markup.
+    -T, Title: The title is displayed as larger, bold text near the top of a message attachmen.
+    -L, Title Link: A valid URL in the will ensure the title text will be hyperlinked.
+    -k, Token: Authenticates the POST to Slack.
+    -u, Username: User that posts the message.
+    -w, Webhook: The Slack API service endpoint to POST messages.
 ```
 
 For more information on the above parameters, please check out the Slack docs:
@@ -165,7 +168,7 @@ FALLBACK="${MONIT_DATE} | ${MONIT_HOST}: ${MONIT_EVENT}"
 
 The message will visually change based on the use of the status flag `-s`. Based on the `-s` passed to Hacky Slack, one of 4 treatments will be applied to the message:
 
-Icon                                                             | Name
+Icon: : :     | Name
 ---------------------------------------------------------------- | ------------------------
 ![Monit Ok](icons/png/monit-ok.png?raw=true "Monit OK")          | Monit OK `-s "ok"`
 ![Monit info](icons/png/monit-info.png?raw=true "Monit INFO")    | Monit INFO `-s "info"`
@@ -208,7 +211,7 @@ Included are various Slack themed icons (
 
 ## AWS
 
-Icon                                                        | Name
+Icon: :                   | Name
 ----------------------------------------------------------- | ---------------
 ![bug Ok](icons/png/aws-cache.png?raw=true "bug OK")        | AWS ElastiCache
 ![bug info](icons/png/aws-rds.png?raw=true "bug INFO")      | AWS RDS
@@ -216,7 +219,7 @@ Icon                                                        | Name
 
 ## BUG
 
-Icon                                                       | Name
+Icon: :                  | Name
 ---------------------------------------------------------- | ---------
 ![bug Ok](icons/png/bug-ok.png?raw=true "bug OK")          | bug OK
 ![bug info](icons/png/bug-info.png?raw=true "bug INFO")    | bug INFO
@@ -225,13 +228,13 @@ Icon                                                       | Name
 
 ## CODE
 
-Icon                                            | Name
+Icon: :       | Name
 ----------------------------------------------- | ----
 ![bug Ok](icons/png/code.png?raw=true "bug OK") | Code
 
 ## CPU
 
-Icon                                                         | Name
+Icon: : : | Name
 ------------------------------------------------------------ | ---------
 ![cpu Ok](icons/png/cpu-ok.png?raw=true "Monit OK")          | CPU OK
 ![cpu info](icons/png/cpu-info.png?raw=true "Monit INFO")    | CPU INFO
@@ -240,7 +243,7 @@ Icon                                                         | Name
 
 ## CRON
 
-Icon                                                       | Name
+Icon: :                  | Name
 ---------------------------------------------------------- | ----------
 ![Cron Ok](icons/png/cron-ok.png?raw=true "Cron OK")       | Cron OK
 ![Cron Ok](icons/png/cron-warn.png?raw=true "Cron WARN")   | Cron WARN
@@ -248,13 +251,13 @@ Icon                                                       | Name
 
 ## DISK
 
-Icon                                            | Name
+Icon: :       | Name
 ----------------------------------------------- | ----
 ![bug Ok](icons/png/disk.png?raw=true "bug OK") | Disk
 
 ## MEMORY
 
-Icon                                                       | Name
+Icon: :                  | Name
 ---------------------------------------------------------- | ---------
 ![mem Ok](icons/png/mem-ok.png?raw=true "mem OK")          | MEM OK
 ![mem info](icons/png/mem-info.png?raw=true "mem INFO")    | MEM INFO
@@ -263,12 +266,12 @@ Icon                                                       | Name
 
 ## MISC
 
-Icon                                                                      | Name
+Icon: : :              | Name
 ------------------------------------------------------------------------- | --------------
 ![Database Check](icons/png/database-check.png?raw=true "Database Check") | Database Check
 ![Integration](icons/png/integration.png?raw=true "mem INFO")             | Integration
-![Stop](icons/png/stop.png?raw=true "Stop")                               | Stop
-![Stop 2](icons/png/stop2.png?raw=true "mem ERROR")                       | Stop 2
+![Stop](icons/png/stop.png?raw=true "Stop"):             | Stop
+![Stop 2](icons/png/stop2.png?raw=true "mem ERROR"):     | Stop 2
 
 # Reference
 

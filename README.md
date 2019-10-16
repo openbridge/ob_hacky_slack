@@ -115,7 +115,7 @@ slack -c "#general" -u "hacky-slack" -i "apple" -a "Macbook" -b "http://www.appl
 Here is a sample message and a screenshot of the message with various flags set.
 
 ```bash
-slack -a -t "Hello World" -i ":slack:" -T "Titles are awesome" -p "Pretext is so helpful to include" -s "info"
+slack -c "#general" -i ":slack:" -a "Hello World" -Z "Hello World" -T "Titles are awesome" -p "Pretext is so helpful to include" -s "info"
 ```
 
 ```bash

@@ -4,6 +4,6 @@ RUN apk add --update \
           curl \
     && rm /var/cache/apk/*
 COPY slack.sh /usr/bin/slack
-RUN chmod +x /slack.sh \
+RUN chmod +x /usr/bin/slack \
     && touch /tmp/ip.txt \
     && mkdir -p /tmp
